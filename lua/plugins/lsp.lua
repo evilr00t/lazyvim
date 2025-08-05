@@ -11,6 +11,10 @@ return {
           mason = false,
           autostart = false,
         },
+        basedpyright = {
+          mason = false,
+          autostart = false,
+        },
       },
     },
   },

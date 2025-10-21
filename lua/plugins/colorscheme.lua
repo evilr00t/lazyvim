@@ -1,8 +1,9 @@
 return {
+  { "p00f/alabaster.nvim" },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight",
+      colorscheme = "alabaster",
     },
   },
 }

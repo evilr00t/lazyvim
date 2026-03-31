@@ -4,7 +4,8 @@ return {
     optional = true,
     opts = {
       formatters_by_ft = {
-        python = { "isort", "black" },
+        python = { "ruff_organize_imports", "ruff_format" },
+        sh = { "shfmt" },
       },
     },
   },

@@ -3,8 +3,10 @@ return {
     "mason-org/mason.nvim",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
-        "isort",
-        "black",
+        "ruff",
+        "bash-language-server",
+        "shfmt",
+        "shellcheck",
         "gitui",
       })
     end,

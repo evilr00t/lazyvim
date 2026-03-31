@@ -8,6 +8,8 @@ return {
         basedpyright = {},
         -- disable upstream pyright to avoid duplicate diagnostics
         pyright = { mason = false, autostart = false },
+        ruff = {},
+        bashls = {},
       },
     },
   },

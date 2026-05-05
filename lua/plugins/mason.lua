@@ -3,11 +3,49 @@ return {
     "mason-org/mason.nvim",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
+        -- Python
         "ruff",
+        "basedpyright",
+        "mypy",
+        
+        -- Go
+        "gopls",
+        "golangci-lint",
+        "gofumpt",
+        "goimports",
+        "gomodifytags",
+        "impl",
+        "delve", -- Go debugger
+        
+        -- Terraform/Terragrunt
+        "terraform-ls",
+        "tflint",
+        "tfsec",
+        
+        -- Kubernetes/YAML
+        "helm-ls",
+        "yaml-language-server",
+        "yamllint",
+        "yamlfmt",
+        
+        -- Shell/Bash
         "bash-language-server",
         "shfmt",
         "shellcheck",
+        
+        -- Docker
+        "dockerfile-language-server",
+        "hadolint",
+        
+        -- General tools
+        "jq",
         "gitui",
+        "actionlint", -- GitHub Actions linter
+        "markdownlint",
+        
+        -- Lua (for neovim config)
+        "stylua",
+        "lua-language-server",
       })
     end,
     keys = {

@@ -38,7 +38,7 @@ return {
     },
   },
 
-  -- Terraform/Terragrunt linting via none-ls
+  -- Terraform formatting via none-ls
   {
     "nvimtools/none-ls.nvim",
     optional = true,
@@ -46,10 +46,19 @@ return {
       local nls = require("null-ls")
       opts.sources = opts.sources or {}
       vim.list_extend(opts.sources, {
-        nls.builtins.diagnostics.tflint,
         nls.builtins.formatting.terraform_fmt,
       })
     end,
+  },
+
+  -- Terraform linting via nvim-lint
+  {
+    "mfussenegger/nvim-lint",
+    opts = {
+      linters_by_ft = {
+        terraform = { "tflint" },
+      },
+    },
   },
 
   -- Terraform file detection for terragrunt

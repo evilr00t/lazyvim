@@ -166,10 +166,10 @@ depends_on:
         opts.servers.yamlls.settings.yaml.schemas = opts.servers.yamlls.settings.yaml.schemas or {}
 
         -- Add docker-compose schema
-        opts.servers.yamlls.settings.yaml.schemas["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] =
-          "docker-compose*.{yml,yaml}"
-        opts.servers.yamlls.settings.yaml.schemas["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] =
-          "compose.{yml,yaml}"
+        opts.servers.yamlls.settings.yaml.schemas["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = {
+          "docker-compose*.{yml,yaml}",
+          "compose.{yml,yaml}",
+        }
       end
     end,
   },

@@ -98,10 +98,11 @@ return {
         opts.servers.yamlls.settings.yaml.schemas = opts.servers.yamlls.settings.yaml.schemas or {}
 
         -- Add Prometheus schema
-        opts.servers.yamlls.settings.yaml.schemas["https://json.schemastore.org/prometheus"] =
-          "*prometheus*.{yml,yaml}"
-        opts.servers.yamlls.settings.yaml.schemas["https://json.schemastore.org/prometheus"] = "*rules*.{yml,yaml}"
-        opts.servers.yamlls.settings.yaml.schemas["https://json.schemastore.org/prometheus"] = "*alerts*.{yml,yaml}"
+        opts.servers.yamlls.settings.yaml.schemas["https://json.schemastore.org/prometheus"] = {
+          "*prometheus*.{yml,yaml}",
+          "*rules*.{yml,yaml}",
+          "*alerts*.{yml,yaml}",
+        }
       end
     end,
   },

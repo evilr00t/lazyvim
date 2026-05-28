@@ -14,7 +14,6 @@ return {
     end,
     keys = {
       { "<leader>rr", "<cmd>lua require('kulala').run()<cr>", desc = "Run REST request" },
-      { "<leader>rp", "<cmd>lua require('kulala').run()<cr>", desc = "Run request" },
       { "<leader>rs", "<cmd>lua require('kulala').show_stats()<cr>", desc = "Show stats" },
       { "<leader>rc", "<cmd>lua require('kulala').copy()<cr>", desc = "Copy as curl" },
       { "<leader>ri", "<cmd>lua require('kulala').inspect()<cr>", desc = "Inspect" },

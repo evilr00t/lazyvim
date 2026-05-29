@@ -6,6 +6,9 @@ return {
       formatters_by_ft = {
         python = { "ruff_organize_imports", "ruff_format" },
         sh = { "shfmt" },
+        terraform = { "terraform_fmt" },
+        ["terraform-vars"] = { "terraform_fmt" },
+        hcl = { "terraform_fmt" },
       },
     },
   },

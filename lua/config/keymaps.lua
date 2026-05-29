@@ -45,8 +45,12 @@ map("n", "<leader>pr", "<cmd>!promtool check rules %<cr>", { desc = "Prometheus:
 -- ========================================
 -- QUICK NAVIGATION HELPERS
 -- ========================================
-map("n", "<leader>fd", "<cmd>Telescope find_files cwd=~/dev<cr>", { desc = "Find files in ~/dev" })
-map("n", "<leader>fD", "<cmd>Telescope find_files cwd=~/dev hidden=true<cr>", { desc = "Find all files in ~/dev" })
+map("n", "<leader>fd", function()
+  Snacks.picker.files({ cwd = vim.fn.expand("~/dev") })
+end, { desc = "Find files in ~/dev" })
+map("n", "<leader>fD", function()
+  Snacks.picker.files({ cwd = vim.fn.expand("~/dev"), hidden = true })
+end, { desc = "Find all files in ~/dev" })
 
 -- ========================================
 -- LOG FILE HELPERS

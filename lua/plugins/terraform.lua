@@ -1,18 +1,25 @@
 return {
-  -- Terraform documentation lookup
+  -- Terraform documentation lookup (opens registry in browser, no telescope dep)
+  -- Inline docs still available via LSP hover (K) from terraform-ls
   {
-    "ANGkeith/telescope-terraform-doc.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    config = function()
-      require("telescope").load_extension("terraform_doc")
-    end,
-    ft = { "terraform", "hcl" },
+    "folke/snacks.nvim",
     keys = {
-      { "<leader>Td", "<cmd>Telescope terraform_doc<cr>", desc = "Terraform docs", ft = "terraform" },
+      {
+        "<leader>Td",
+        function()
+          local q = vim.fn.expand("<cword>")
+          vim.ui.open("https://registry.terraform.io/search/providers?q=" .. q)
+        end,
+        desc = "Terraform provider docs (registry)",
+        ft = "terraform",
+      },
       {
         "<leader>TM",
-        "<cmd>Telescope terraform_doc modules<cr>",
-        desc = "Terraform module docs",
+        function()
+          local q = vim.fn.expand("<cword>")
+          vim.ui.open("https://registry.terraform.io/search/modules?q=" .. q)
+        end,
+        desc = "Terraform module docs (registry)",
         ft = "terraform",
       },
     },
@@ -36,19 +43,6 @@ return {
         },
       },
     },
-  },
-
-  -- Terraform formatting via none-ls
-  {
-    "nvimtools/none-ls.nvim",
-    optional = true,
-    opts = function(_, opts)
-      local nls = require("null-ls")
-      opts.sources = opts.sources or {}
-      vim.list_extend(opts.sources, {
-        nls.builtins.formatting.terraform_fmt,
-      })
-    end,
   },
 
   -- Terraform linting via nvim-lint

@@ -1,6 +1,6 @@
 return {
   {
-    dir = "~/repos/evilr00t/flamaster.nvim",
+    "evilr00t/flamaster.nvim",
     lazy = false,
     priority = 1000,
     config = function()

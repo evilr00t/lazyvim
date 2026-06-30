@@ -45,12 +45,14 @@ map("n", "<leader>pr", "<cmd>!promtool check rules %<cr>", { desc = "Prometheus:
 -- ========================================
 -- QUICK NAVIGATION HELPERS
 -- ========================================
-map("n", "<leader>fd", function()
-  Snacks.picker.files({ cwd = vim.fn.expand("~/dev") })
-end, { desc = "Find files in ~/dev" })
-map("n", "<leader>fD", function()
-  Snacks.picker.files({ cwd = vim.fn.expand("~/dev"), hidden = true })
-end, { desc = "Find all files in ~/dev" })
+if Snacks then
+  map("n", "<leader>fd", function()
+    Snacks.picker.files({ cwd = vim.fn.expand("~/dev") })
+  end, { desc = "Find files in ~/dev" })
+  map("n", "<leader>fD", function()
+    Snacks.picker.files({ cwd = vim.fn.expand("~/dev"), hidden = true })
+  end, { desc = "Find all files in ~/dev" })
+end
 
 -- ========================================
 -- LOG FILE HELPERS

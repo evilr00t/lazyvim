@@ -8,7 +8,7 @@ if vim.env.TMUX then
       if vim.bo.buftype ~= "" then
         return
       end
-      vim.fn.system("tmux rename-window " .. vim.fn.shellescape(vim.fn.expand("%:t")))
+      vim.fn.system({ "tmux", "rename-window", vim.fn.expand("%:t") })
     end,
   })
 

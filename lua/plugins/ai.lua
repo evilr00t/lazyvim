@@ -1,71 +1,96 @@
 return {
-  -- OpenAI inline completions (ghost text), accepted with <Tab>
-  -- Needs OPENAI_API_KEY in the environment; requests are billed to that OpenAI API account
+  -- Windsurf (Codeium) inline completions as ghost text, accepted with <Tab>
+  -- First run: :NeoCodeium auth
   {
-    "milanglacier/minuet-ai.nvim",
+    "monkoose/neocodeium",
     event = "InsertEnter",
-    cmd = "Minuet",
-    opts = {
-      provider = "openai",
-      provider_options = {
-        openai = {
-          model = "gpt-5.6-luna",
-          optional = {
-            max_completion_tokens = 128,
-            reasoning_effort = "none",
-          },
-        },
-      },
-      -- raise these to cut cost / avoid rate limits
-      throttle = 1000,
-      debounce = 400,
-      -- never send secrets to the API
-      enable_predicates = {
-        function()
-          local name = vim.fn.expand("%:t")
-          return vim.bo.filetype ~= "env"
-            and not name:match("^%.env")
-            and not name:match("%.pem$")
-            and not name:match("%.key$")
-            and not name:match("%.tfvars$")
+    cmd = "NeoCodeium",
+    opts = function()
+      -- <Tab> accepts via LazyVim's ai_accept (after snippet jumps, before a literal tab)
+      LazyVim.cmp.actions.ai_accept = function()
+        local neocodeium = require("neocodeium")
+        if neocodeium.visible() then
+          LazyVim.create_undo()
+          neocodeium.accept()
+          return true
+        end
+      end
+
+      -- hide suggestions while blink's menu is open
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "BlinkCmpMenuOpen",
+        callback = function()
+          require("neocodeium").clear()
         end,
+      })
+
+      return {
+        filetypes = { snacks_picker_input = false, snacks_input = false },
+        filter = function(bufnr)
+          -- never send secrets
+          local name = vim.fs.basename(vim.api.nvim_buf_get_name(bufnr))
+          if
+            vim.bo[bufnr].filetype == "env"
+            or name:match("^%.env")
+            or name:match("%.pem$")
+            or name:match("%.key$")
+            or name:match("%.tfvars$")
+          then
+            return false
+          end
+          return not require("blink.cmp").is_visible()
+        end,
+      }
+    end,
+    keys = {
+      {
+        "<M-]>",
+        function()
+          require("neocodeium").cycle_or_complete()
+        end,
+        mode = "i",
+        desc = "Next suggestion",
       },
-      virtualtext = {
-        auto_trigger_ft = { "*" },
-        auto_trigger_ignore_ft = { "snacks_picker_input", "snacks_input" },
-        keymap = {
-          accept_line = "<M-l>",
-          next = "<M-]>",
-          prev = "<M-[>",
-          dismiss = "<C-]>",
-        },
+      {
+        "<M-[>",
+        function()
+          require("neocodeium").cycle_or_complete(-1)
+        end,
+        mode = "i",
+        desc = "Previous suggestion",
+      },
+      {
+        "<M-l>",
+        function()
+          require("neocodeium").accept_line()
+        end,
+        mode = "i",
+        desc = "Accept suggestion line",
+      },
+      {
+        "<C-]>",
+        function()
+          require("neocodeium").clear()
+        end,
+        mode = "i",
+        desc = "Dismiss suggestion",
       },
     },
   },
 
-  -- <Tab> accepts via LazyVim's ai_accept (after snippet jumps, before a literal tab)
+  -- Codex CLI (signs in with your ChatGPT plan) as the default Sidekick tool;
+  -- Copilot next-edit suggestions stay off
   {
-    "milanglacier/minuet-ai.nvim",
-    opts = function()
-      LazyVim.cmp.actions.ai_accept = function()
-        local vt = require("minuet.virtualtext").action
-        if vt.is_visible() then
-          LazyVim.create_undo()
-          vt.accept()
-          return true
-        end
-      end
-    end,
+    "folke/sidekick.nvim",
+    opts = { nes = { enabled = false } },
+    keys = {
+      {
+        "<leader>aa",
+        function()
+          require("sidekick.cli").toggle({ name = "codex" })
+        end,
+        desc = "Sidekick Toggle Codex",
+      },
+    },
   },
-
-  {
-    "nvim-lualine/lualine.nvim",
-    optional = true,
-    opts = function(_, opts)
-      table.insert(opts.sections.lualine_x, 2, { require("minuet.lualine"), display_name = "model" })
-    end,
-  },
-
-  -- keep sidekick's AI CLI terminal (Codex, Claude, ...) but drop Copilot next-edit suggestions
-  { "folke/sidekick.nvim", opts = { nes = { enabled = false } } },
 }

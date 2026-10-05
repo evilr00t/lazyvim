@@ -5,6 +5,9 @@
 -- Python: basedpyright instead of pyright (lang.python extra)
 vim.g.lazyvim_python_lsp = "basedpyright"
 
+-- AI completions as inline ghost text accepted with <Tab>, not as a completion-menu source
+vim.g.ai_cmp = false
+
 -- docker_compose_language_service only attaches to this filetype
 vim.filetype.add({
   pattern = {

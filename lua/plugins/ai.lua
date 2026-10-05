@@ -93,4 +93,10 @@ return {
       },
     },
   },
+
+  -- copilot-language-server is still installed by mason, which would auto-enable it
+  {
+    "neovim/nvim-lspconfig",
+    opts = { servers = { copilot = { enabled = false } } },
+  },
 }

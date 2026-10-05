@@ -8,13 +8,14 @@ if vim.env.TMUX then
       if vim.bo.buftype ~= "" then
         return
       end
-      vim.fn.system({ "tmux", "rename-window", vim.fn.expand("%:t") })
+      vim.system({ "tmux", "rename-window", vim.fn.expand("%:t") })
     end,
   })
 
+  -- rename-window turns off automatic-rename; hand the name back to tmux on exit
   vim.api.nvim_create_autocmd("VimLeave", {
     callback = function()
-      vim.fn.system("tmux rename-window zsh")
+      vim.system({ "tmux", "set-window-option", "automatic-rename", "on" }):wait()
     end,
   })
 end

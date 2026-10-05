@@ -1,0 +1,76 @@
+{
+  "Docker Compose service": {
+    "prefix": "dcservice",
+    "body": [
+      "${1:service_name}:",
+      "  image: ${2:image:tag}",
+      "  container_name: ${3:container_name}",
+      "  ports:",
+      "    - \"${4:8080}:${5:8080}\"",
+      "  environment:",
+      "    - ${6:ENV_VAR}=${7:value}",
+      "  volumes:",
+      "    - ./${8:local_path}:${9:/container/path}",
+      "  networks:",
+      "    - ${10:default}",
+      "  restart: unless-stopped"
+    ]
+  },
+  "Docker Compose file": {
+    "prefix": "dcfull",
+    "body": [
+      "services:",
+      "  ${1:app}:",
+      "    image: ${2:nginx:latest}",
+      "    container_name: ${3:my_app}",
+      "    ports:",
+      "      - \"${4:80}:${5:80}\"",
+      "    environment:",
+      "      - ${6:ENV=production}",
+      "    volumes:",
+      "      - ${7:./data:/data}",
+      "    networks:",
+      "      - ${8:app_network}",
+      "    restart: unless-stopped",
+      "",
+      "networks:",
+      "  ${9:app_network}:",
+      "    driver: bridge",
+      "",
+      "volumes:",
+      "  ${10:app_data}:",
+      "    driver: local"
+    ]
+  },
+  "Docker Compose healthcheck": {
+    "prefix": "dchealthcheck",
+    "body": [
+      "healthcheck:",
+      "  test: [\"CMD-SHELL\", \"${1:curl -f http://localhost/health || exit 1}\"]",
+      "  interval: ${2:30s}",
+      "  timeout: ${3:10s}",
+      "  retries: ${4:3}",
+      "  start_period: ${5:40s}"
+    ]
+  },
+  "Docker Compose depends_on": {
+    "prefix": "dcdepends",
+    "body": ["depends_on:", "  ${1:db}:", "    condition: ${2:service_healthy}"]
+  },
+  "PromQL rate": {
+    "prefix": "promrate",
+    "body": "rate(${1:metric_name}[${2:5m}])"
+  },
+  "PromQL sum by": {
+    "prefix": "promsum",
+    "body": "sum(${1:metric}) by (${2:label})"
+  },
+  "PromQL avg by": {
+    "prefix": "promavg",
+    "body": "avg(${1:metric}) by (${2:label})"
+  },
+  "PromQL histogram quantile": {
+    "prefix": "promhist",
+    "body": "histogram_quantile(${1:0.99}, sum(rate(${2:metric_bucket}[${3:5m}])) by (le))"
+  }
+}

@@ -44,22 +44,4 @@ return {
       },
     },
   },
-
-  -- Terraform linting via nvim-lint
-  {
-    "mfussenegger/nvim-lint",
-    opts = {
-      linters_by_ft = {
-        terraform = { "tflint" },
-      },
-    },
-  },
-
-  -- Terraform file detection for terragrunt
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed or {}, { "terraform", "hcl" })
-    end,
-  },
 }

@@ -15,3 +15,13 @@ vim.filetype.add({
     ["compose%.ya?ml"] = "yaml.docker-compose",
   },
 })
+
+-- Jinja2 templates: highlight as the underlying file (x.yml.j2 -> yaml, nginx.conf.j2 -> conf),
+-- falling back to the jinja treesitter parser when the base name says nothing
+vim.filetype.add({
+  extension = {
+    j2 = function(path, bufnr)
+      return vim.filetype.match({ filename = (path:gsub("%.j2$", "")), buf = bufnr }) or "jinja"
+    end,
+  },
+})

@@ -30,3 +30,5 @@ vim.filetype.add({
     end,
   },
 })
+
+require("config.highlights")

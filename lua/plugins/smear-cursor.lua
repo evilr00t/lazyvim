@@ -1,6 +1,4 @@
 return {
-  { "sphamba/smear-cursor.nvim", opts = {} },
-
-  -- smear-cursor animates the cursor; keep mini.animate for scroll/resize/open/close
+  -- Keep mini.animate for scroll/resize/open/close, but leave cursor motion unanimated.
   { "nvim-mini/mini.animate", optional = true, opts = { cursor = { enable = false } } },
 }
